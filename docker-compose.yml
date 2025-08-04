@@ -26,7 +26,7 @@ services:
   # API de Categorías
   categories-api:
     build:
-      context: ../Downloads/categorias
+      context: ./categorias  # Directorio local en el workspace
       dockerfile: Dockerfile
     container_name: categories-service
     ports:
@@ -46,7 +46,7 @@ services:
   # API de Productos
   products-api:
     build:
-      context: ../Downloads/products/products/pdts
+      context: ./products  # Directorio local en el workspace
       dockerfile: Dockerfile
     container_name: products-service
     ports:
@@ -67,9 +67,14 @@ services:
 
   # Frontend Angular
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # Usar imagen de Docker Hub
+    image: ryuzakizeitan/frontend-products-cats:latest
+    
+    # Para desarrollo local, descomenta las siguientes líneas y comenta la línea 'image':
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    
     container_name: angular-frontend
     ports:
       - "4200:80"
