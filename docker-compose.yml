@@ -59,6 +59,8 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      CATEGORIES_SERVICE_URL: http://categories-api:8089
+      CATEGORIES_API_URL: http://categories-api:8089/api/categorias
     networks:
       - app-network
     restart: on-failure
