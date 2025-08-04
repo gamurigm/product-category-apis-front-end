@@ -7,7 +7,7 @@ Sistema completo con **Angular 19** (Frontend), **Spring Boot** (Backend) y **My
 ### ⚡ Un solo comando (sin código fuente):
 
 ```bash
-curl -O https://raw.githubusercontent.com/gamurigm/product-category-apis-front-end/main/docker-compose.hub.yml && docker-compose -f docker-compose.hub.yml up
+curl -O https://raw.githubusercontent.com/gamurigm/product-category-apis-front-end/main/docker-compose.hub.yml && docker compose -f docker-compose.hub.yml up
 ```
 
 ### 📱 Acceder a la aplicación:
@@ -17,14 +17,13 @@ curl -O https://raw.githubusercontent.com/gamurigm/product-category-apis-front-e
 
 
 
-```
 
 ## 🔧 Para Desarrolladores
 ```bash
 git clone https://github.com/gamurigm/product-category-apis-front-end.git
 cd product-category-apis-front-end
 
- docker compose -f docker-compose.hub.yml down
+docker compose -f docker-compose.hub.yml up
 ```
 
 ## 🐳 Imágenes Docker Hub
