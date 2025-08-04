@@ -1,0 +1,14 @@
+{
+  "/api/categorias/*": {
+    "target": "http://localhost:8089",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/api/products/*": {
+    "target": "http://localhost:8088",
+    "secure": true,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

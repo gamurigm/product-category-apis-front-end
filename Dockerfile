@@ -6,10 +6,10 @@ WORKDIR /app
 # Copiar package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar dependencias
-RUN npm ci --only=production
+# Instalar todas las dependencias (incluyendo devDependencies)
+RUN npm ci
 
-# Copiar código fuente
+# Copiar código fuente (excluyendo node_modules)
 COPY . .
 
 # Construir la aplicación para producción
