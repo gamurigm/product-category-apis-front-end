@@ -1,0 +1,56 @@
+<div class="category-list-container">
+  <div class="header">
+    <h2>Gestión de Categorías</h2>
+    <button class="btn btn-primary" routerLink="/categories/new">
+      <i class="icon-plus"></i>
+      Nueva Categoría
+    </button>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando categorías...</p>
+  </div>
+
+  <div *ngIf="!loading && categories.length === 0" class="empty-state">
+    <h3>No hay categorías</h3>
+    <p>Comienza creando tu primera categoría</p>
+    <button class="btn btn-primary" routerLink="/categories/new">
+      Crear Categoría
+    </button>
+  </div>
+
+  <div *ngIf="!loading && categories.length > 0" class="categories-grid">
+    <div *ngFor="let category of categories" class="category-card">
+      <div class="card-header">
+        <h3>{{ category.nombre }}</h3>
+        <div class="card-actions">
+          <button 
+            class="btn btn-secondary btn-sm" 
+            [routerLink]="['/categories/edit', category.id]"
+            title="Editar">
+            <i class="icon-edit"></i>
+          </button>
+          <button 
+            class="btn btn-danger btn-sm" 
+            (click)="deleteCategory(category.id!)"
+            title="Eliminar">
+            <i class="icon-delete"></i>
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>{{ category.descripcion }}</p>
+        <div class="card-footer">
+          <small *ngIf="category.fechaCreacion">
+            Creado: {{ category.fechaCreacion | date:'short' }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

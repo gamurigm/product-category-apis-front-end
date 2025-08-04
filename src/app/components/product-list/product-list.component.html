@@ -1,0 +1,94 @@
+<div class="product-list-container">
+  <div class="header">
+    <h2>Gestión de Productos</h2>
+    <button class="btn btn-primary" routerLink="/products/new">
+      <i class="icon-plus"></i>
+      Nuevo Producto
+    </button>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label for="search">Buscar:</label>
+      <input 
+        type="text" 
+        id="search"
+        [(ngModel)]="searchTerm"
+        (input)="onSearchChange()"
+        placeholder="Buscar por nombre o descripción..."
+        class="form-control">
+    </div>
+    
+    <div class="filter-group">
+      <label for="category">Categoría:</label>
+      <select 
+        id="category"
+        [(ngModel)]="selectedCategoryId"
+        (change)="onCategoryChange()"
+        class="form-control">
+        <option [value]="null">Todas las categorías</option>
+        <option *ngFor="let category of categories" [value]="category.id">
+          {{ category.nombre }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <div class="spinner"></div>
+    <p>Cargando productos...</p>
+  </div>
+
+  <div *ngIf="!loading && filteredProducts.length === 0 && products.length === 0" class="empty-state">
+    <h3>No hay productos</h3>
+    <p>Comienza creando tu primer producto</p>
+    <button class="btn btn-primary" routerLink="/products/new">
+      Crear Producto
+    </button>
+  </div>
+
+  <div *ngIf="!loading && filteredProducts.length === 0 && products.length > 0" class="empty-state">
+    <h3>No se encontraron productos</h3>
+    <p>Intenta cambiar los filtros de búsqueda</p>
+  </div>
+
+  <div *ngIf="!loading && filteredProducts.length > 0" class="products-table">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Categoría</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of filteredProducts">
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td class="price">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>{{ getCategoryName(product.categoryId) }}</td>
+          <td class="actions">
+            <button 
+              class="btn btn-secondary btn-sm" 
+              [routerLink]="['/products/edit', product.id]"
+              title="Editar">
+              <i class="icon-edit"></i>
+            </button>
+            <button 
+              class="btn btn-danger btn-sm" 
+              (click)="deleteProduct(product.id!)"
+              title="Eliminar">
+              <i class="icon-delete"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

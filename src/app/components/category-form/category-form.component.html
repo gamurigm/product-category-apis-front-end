@@ -1,0 +1,57 @@
+<div class="form-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Editar Categoría' : 'Nueva Categoría' }}</h2>
+  </div>
+
+  <div *ngIf="error" class="alert alert-error">
+    {{ error }}
+  </div>
+
+  <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()" class="category-form">
+    <div class="form-group">
+      <label for="nombre">Nombre *</label>
+      <input 
+        type="text" 
+        id="nombre" 
+        formControlName="nombre"
+        class="form-control"
+        [class.is-invalid]="categoryForm.get('nombre')?.touched && categoryForm.get('nombre')?.errors"
+        placeholder="Ingrese el nombre de la categoría">
+      <div class="error-message" *ngIf="getErrorMessage('nombre')">
+        {{ getErrorMessage('nombre') }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea 
+        id="descripcion" 
+        formControlName="descripcion"
+        class="form-control"
+        [class.is-invalid]="categoryForm.get('descripcion')?.touched && categoryForm.get('descripcion')?.errors"
+        placeholder="Ingrese la descripción de la categoría"
+        rows="4">
+      </textarea>
+      <div class="error-message" *ngIf="getErrorMessage('descripcion')">
+        {{ getErrorMessage('descripcion') }}
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="onCancel()"
+        [disabled]="loading">
+        Cancelar
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="loading || categoryForm.invalid">
+        <span *ngIf="loading" class="spinner-small"></span>
+        {{ isEditMode ? 'Actualizar' : 'Crear' }}
+      </button>
+    </div>
+  </form>
+</div>
