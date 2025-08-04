@@ -22,7 +22,7 @@ FROM nginx:alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copiar los archivos construidos desde la etapa anterior
-COPY --from=build /app/dist/product-categories-app /usr/share/nginx/html
+COPY --from=build /app/dist/product-categories-app/browser /usr/share/nginx/html
 
 # Exponer puerto 80
 EXPOSE 80

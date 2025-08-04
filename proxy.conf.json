@@ -1,14 +1,38 @@
 {
+  "/api/categorias": {
+    "target": "http://localhost:8089",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/categorias": "/categorias"
+    }
+  },
   "/api/categorias/*": {
     "target": "http://localhost:8089",
-    "secure": true,
+    "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/categorias": "/categorias"
+    }
+  },
+  "/api/products": {
+    "target": "http://localhost:8088",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/products": "/products"
+    }
   },
   "/api/products/*": {
     "target": "http://localhost:8088",
-    "secure": true,
+    "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "logLevel": "debug",
+    "pathRewrite": {
+      "^/api/products": "/products"
+    }
   }
 }

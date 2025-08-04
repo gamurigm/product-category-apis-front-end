@@ -1,4 +1,3 @@
-package com.ejemplo.categorias.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
