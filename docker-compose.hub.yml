@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # Base de datos MySQL compartida
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-database
+    environment:
+      MYSQL_DATABASE: test
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # API de Categorías - DESDE DOCKER HUB
+  categories-api:
+    image: ryuzakizeitan/categorias:latest
+    container_name: categories-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/test
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+    ports:
+      - "8089:8089"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # API de Productos - DESDE DOCKER HUB
+  products-api:
+    image: ryuzakizeitan/productos:latest
+    container_name: products-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/test
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+      CATEGORIES_SERVICE_URL: http://categories-api:8089
+      CATEGORIES_API_URL: http://categories-api:8089/api/categorias
+    ports:
+      - "8088:8088"
+    depends_on:
+      mysql-db:
+        condition: service_healthy
+      categories-api:
+        condition: service_started
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Frontend Angular - DESDE DOCKER HUB
+  frontend:
+    image: ryuzakizeitan/frontend-products-cats:latest
+    
+    container_name: angular-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - categories-api
+      - products-api
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+
+networks:
+  app-network:
+    driver: bridge

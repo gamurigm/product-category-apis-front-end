@@ -1,6 +1,6 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Compiled output
+# Compiled output Angular
 /dist
 /tmp
 /out-tsc
@@ -10,6 +10,22 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+
+# Angular cache
+.angular/cache/
+
+# APIs Java Spring Boot
+categorias/target/
+categorias/.mvn/
+categorias/mvnw
+categorias/mvnw.cmd
+categorias/*.log
+
+products/target/
+products/.mvn/
+products/mvnw
+products/mvnw.cmd  
+products/*.log
 
 # IDEs and editors
 .idea/
